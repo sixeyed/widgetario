@@ -1,0 +1,19 @@
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine AS builder
+
+WORKDIR /src
+COPY Widgetario.Web/Widgetario.Web.csproj .
+RUN dotnet restore
+
+COPY Widgetario.Web/ .
+RUN dotnet publish -c Release -o /out Widgetario.Web.csproj
+
+# app image
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine
+
+ENV ProductsApi:Url="http://products-api/products" \
+    StockApi:Url="http://stock-api/stock" 
+
+ENTRYPOINT ["dotnet", "/app/Widgetario.Web.dll"]
+
+WORKDIR /app
+COPY --from=builder /out/ .

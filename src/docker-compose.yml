@@ -1,0 +1,47 @@
+services:
+
+  products-db:
+    image: widgetario/products-db:postgres
+    build:
+      context: db/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - app-net
+
+  products-api:
+    image: widgetario/products-api:java
+    build:
+      context: products-api/java
+    ports:
+      - "8081:80"
+    networks:
+      - app-net
+    depends_on:
+      - products-db
+
+  stock-api:
+    image: widgetario/stock-api:golang
+    build:
+      context: stock-api/golang
+    ports:
+      - "8082:8080"
+    networks:
+      - app-net
+    depends_on:
+      - products-db
+  
+  web:
+    image: widgetario/web:dotnet
+    build:
+      context: web/dotnet
+    ports:
+      - "8080:80"
+    networks:
+      - app-net
+    depends_on:
+      - products-api      
+      - stock-api
+
+networks:
+  app-net:

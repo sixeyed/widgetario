@@ -1,0 +1,31 @@
+﻿@model ProductViewModel
+@{
+    ViewData["Title"] = "Products";
+}
+
+<img src="~/img/logo.png" class="mx-auto my-5 d-block" />
+
+@if (@Model.Products == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Your widget</th>
+                <th>Just</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in @Model.Products)
+            {
+                <tr>
+                    <td>@product.Name</td>
+                    <td>@product.DisplayPrice</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
