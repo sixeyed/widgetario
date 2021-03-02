@@ -1,4 +1,4 @@
-package wiredbrain.products;
+package widgetario.products;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

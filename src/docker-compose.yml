@@ -13,6 +13,8 @@ services:
     image: widgetario/products-api:java
     build:
       context: products-api/java
+    environment:
+      - PRICE_FACTOR=1.5
     ports:
       - "8081:80"
     networks:
@@ -35,6 +37,8 @@ services:
     image: widgetario/web:dotnet
     build:
       context: web/dotnet
+    environment:
+      - StockApi:Url="http://stock-api/:8080/stock" 
     ports:
       - "8080:80"
     networks:

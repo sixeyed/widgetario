@@ -1,4 +1,4 @@
-package wiredbrain.products;
+package widgetario.products;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Tags;

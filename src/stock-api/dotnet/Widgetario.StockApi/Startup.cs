@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using OpenTracing;
 using OpenTracing.Util;
+using Prometheus;
 using Widgetario.StockApi.Caching;
 using Widgetario.StockApi.Entities;
 
@@ -84,6 +85,9 @@ namespace Widgetario.StockApi
             }
 
             app.UseRouting();
+
+            app.UseMetricServer();
+            app.UseHttpMetrics();  
 
             app.UseAuthorization();
 

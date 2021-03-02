@@ -32,7 +32,7 @@ services:
       - products-db
   
   web:
-    image: widgetario/web:dotnet
+    image: widgetario/web:dotnet-serilog
     build:
       context: web/dotnet
     ports:

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using OpenTracing;
 using OpenTracing.Util;
+using Prometheus;
 using Widgetario.ProductApi.Entities;
 
 namespace Widgetario.ProductApi
@@ -70,6 +71,9 @@ namespace Widgetario.ProductApi
             }
 
             app.UseRouting();
+
+            app.UseMetricServer();
+            app.UseHttpMetrics();  
 
             app.UseAuthorization();
 

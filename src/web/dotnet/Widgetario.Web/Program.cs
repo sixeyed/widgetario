@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Prometheus;
-
+using Serilog;
 
 namespace Widgetario.Web
 {
@@ -18,12 +18,20 @@ namespace Widgetario.Web
 
         public static void Main(string[] args)
         {
-            _InfoGauge.Labels("3.1.7", "Widgetario.Web", "0.3.0").Set(1);
+            _InfoGauge.Labels("3.1.7", "Widgetario.Web", "1.1.0").Set(1);
+            
+            Log.Logger = new LoggerConfiguration()            
+                                .Enrich.FromLogContext()
+                                .MinimumLevel.Information()
+                                .WriteTo.File("/logs/app.log", shared: true, flushToDiskInterval: TimeSpan.FromSeconds(5))
+                                .CreateLogger();
+
             CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseSerilog()
                 .ConfigureAppConfiguration((builderContext, config) =>
                 {
                     config.AddJsonFile("appsettings.json")
