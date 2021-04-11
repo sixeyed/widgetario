@@ -15,5 +15,6 @@ ENV POSTGRES_CONNECTION_STRING="host=products-db port=5432 user=postgres passwor
 EXPOSE 8080
 CMD ["/app/server"]
 
+WORKDIR /cache
 WORKDIR /app
 COPY --from=builder /server .

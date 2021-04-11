@@ -3,6 +3,7 @@ package handlers
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http" 
 	"os"
@@ -10,6 +11,7 @@ import (
 	"github.com/gorilla/mux" 
 	_ "github.com/lib/pq"
 	"stock-api/models"
+	"io/ioutil"
 )
 
 type response struct {
@@ -31,12 +33,26 @@ func createConnection() *sql.DB {
 	return db
 }
 
+func GetHealth(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("OK"))
+}
+
 func GetProductStock(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id,_ := strconv.Atoi(params["id"])
+	var product models.Product
 
-	product,_ := getProductStock(int64(id))	
-	log.Printf("Fetched stock for product ID: %v", id)
+	cacheFile := fmt.Sprintf("/cache/product-%v.json", id);
+	if _, err := os.Stat(cacheFile); err == nil {
+		content,_ := ioutil.ReadFile(cacheFile) 		
+		_ = json.Unmarshal(content, &product)
+		log.Printf("Loaded stock from cache for product ID: %v", id)
+	} else {
+		product,_ := getProductStock(int64(id))	
+		log.Printf("Fetched stock from DB for product ID: %v", id)
+		data, _ := json.MarshalIndent(product, "", " ")
+		_ = ioutil.WriteFile(cacheFile, data, 0644) 
+	}	
 
 	w.Header().Add("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(product)
