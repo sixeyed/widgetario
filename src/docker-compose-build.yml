@@ -1,0 +1,28 @@
+services:
+
+  products-db:
+    image: widgetario/products-db:postgres
+    build:
+      context: db/postgres
+
+  products-db-replicated:
+    image: widgetario/products-db:postgres-replicated
+    build:
+      context: db/postgres-replicated
+    networks:
+      - app-net
+
+  products-api:
+    image: widgetario/products-api:java
+    build:
+      context: products-api/java
+
+  stock-api:
+    image: widgetario/stock-api:golang
+    build:
+      context: stock-api/golang
+  
+  web:
+    image: widgetario/web:dotnet
+    build:
+      context: web/dotnet

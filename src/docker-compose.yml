@@ -2,8 +2,6 @@ services:
 
   products-db:
     image: widgetario/products-db:postgres
-    build:
-      context: db/postgres
     ports:
       - "5432:5432"
     networks:
@@ -11,8 +9,6 @@ services:
 
   products-api:
     image: widgetario/products-api:java
-    build:
-      context: products-api/java
     environment:
       - PRICE_FACTOR=1.5
     ports:
@@ -24,8 +20,6 @@ services:
 
   stock-api:
     image: widgetario/stock-api:golang
-    build:
-      context: stock-api/golang
     ports:
       - "8082:8080"
     networks:
@@ -35,8 +29,6 @@ services:
   
   web:
     image: widgetario/web:dotnet
-    build:
-      context: web/dotnet
     environment:
       - StockApi:Url="http://stock-api/:8080/stock" 
     ports:
