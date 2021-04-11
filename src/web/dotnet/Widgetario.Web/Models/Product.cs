@@ -8,20 +8,31 @@
 
         public double Price { get; set; }
 
-        public int Stock { get;  set; }
+        public int Stock { get;  set; }        
+
+        public string StockMessage 
+        {
+            get 
+            {
+                var message = "Plenty";
+                if (Stock == 0)
+                {
+                    message = "SOLD OUT!";
+                }
+                else if (Stock < 50)
+                {
+                    message = "Last few...";
+                }
+                return message;
+            }
+        }
+
 
         public string DisplayPrice
         {
             get
             {
-                if(Stock > 0)
-                {
-                    return $"${Price.ToString("#.00")}";
-                }
-                else
-                {
-                    return "SOLD OUT!";
-                }
+                return $"${Price.ToString("#.00")}";
             }
         }
     }

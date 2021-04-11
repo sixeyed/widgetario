@@ -16,7 +16,7 @@ namespace Widgetario.Web.Services
         public ProductService(IConfiguration config)
         {
             _config = config;
-            ApiUrl = _config["ProductsApi:Url"];
+            ApiUrl = _config["Widgetario:ProductsApi:Url"];
         }
 
         public async Task<IEnumerable<Product>> GetProducts()

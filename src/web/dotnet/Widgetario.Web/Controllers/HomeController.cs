@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Widgetario.Web.Models;
 using Widgetario.Web.Services;
@@ -14,16 +16,18 @@ namespace Widgetario.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IConfiguration _config;
         private readonly ITracer _tracer;
         private readonly ILogger<HomeController> _logger;
         private readonly ProductService _productsService;
         private readonly StockService _stockService;
 
-        public HomeController(ProductService productsService, StockService stockService, ITracer tracer, ILogger<HomeController> logger)
+        public HomeController(ProductService productsService, StockService stockService, ITracer tracer, IConfiguration config, ILogger<HomeController> logger)
         {
             _productsService = productsService;
             _stockService = stockService;
             _tracer = tracer;
+            _config = config;
             _logger = logger;
         }
 
@@ -43,11 +47,23 @@ namespace Widgetario.Web.Controllers
                     using (var stockLoadScope = _tracer.BuildSpan("stock-api-load").StartActive())
                     {
                         var productStock = await _stockService.GetStock(product.Id);
-                        product.Stock = productStock.Stock;
+                        product.Stock = productStock.Stock;                        
                     }
                 }
                 _logger.LogDebug($"Products & stock load took: {stopwatch.Elapsed.TotalMilliseconds}ms");
+            }           
+
+            if (_config.GetValue<bool>("Widgetario:Debug"))
+            {
+                ViewData["Environment"] = $"{_config["Widgetario:Environment"]} @ {Dns.GetHostName()}";
             }
+            else
+            {
+                ViewData["Environment"] = $"{_config["Widgetario:Environment"]}";
+            }
+
+            ViewData["Theme"] = _config.GetValue<string>("Widgetario:Theme") ?? "light";
+
             return View(model);
         }
 

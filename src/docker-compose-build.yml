@@ -9,8 +9,6 @@ services:
     image: widgetario/products-db:postgres-replicated
     build:
       context: db/postgres-replicated
-    networks:
-      - app-net
 
   products-api:
     image: widgetario/products-api:java
@@ -26,3 +24,9 @@ services:
     image: widgetario/web:dotnet
     build:
       context: web/dotnet
+  
+  web-v2:
+    image: widgetario/web:dotnet-v2
+    build:
+      context: web/dotnet
+      dockerfile: Dockerfile.v2

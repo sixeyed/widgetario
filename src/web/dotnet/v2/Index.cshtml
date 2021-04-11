@@ -32,6 +32,7 @@ else
                 <th>Your widget</th>
                 <th>Just</th>
                 <th>Availability</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -41,6 +42,14 @@ else
                     <td>@product.Name</td>
                     <td>@product.DisplayPrice</td>
                     <td>@product.StockMessage</td>
+                    @if (product.Stock > 0)
+                    {
+                        <td><button type="button" class="btn btn-primary">Buy</button></td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
                 </tr>
             }
         </tbody>

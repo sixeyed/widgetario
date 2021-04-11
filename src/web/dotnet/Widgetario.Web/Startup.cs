@@ -30,7 +30,7 @@ namespace Widgetario.Web
             services.AddScoped<ProductService>();
             services.AddScoped<StockService>();
 
-            if (Configuration.GetValue<bool>("Tracing:Enabled"))
+            if (Configuration.GetValue<bool>("Widgetario:Tracing:Enabled"))
             {
                 services.AddSingleton<ITracer>(serviceProvider =>
                 {
@@ -39,7 +39,7 @@ namespace Widgetario.Web
 
                     var reporter = new RemoteReporter.Builder()
                         .WithLoggerFactory(loggerFactory)
-                        .WithSender(new UdpSender(Configuration["Tracing:Target"], 6831, 0))
+                        .WithSender(new UdpSender(Configuration["Widgetario:Tracing:Target"], 6831, 0))
                         .Build();
                     
                     var tracer = new Tracer.Builder("Widgetario.Web")

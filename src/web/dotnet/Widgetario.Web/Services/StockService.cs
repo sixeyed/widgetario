@@ -15,7 +15,7 @@ namespace Widgetario.Web.Services
         public StockService(IConfiguration config)
         {
             _config = config;
-            ApiUrl = _config["StockApi:Url"];
+            ApiUrl = _config["Widgetario:StockApi:Url"];
         }
 
         public async Task<ProductStock> GetStock(long productId)

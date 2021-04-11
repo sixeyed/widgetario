@@ -5,6 +5,7 @@ COPY Widgetario.Web/Widgetario.Web.csproj .
 RUN dotnet restore
 
 COPY Widgetario.Web/ .
+COPY v2/Index.cshtml ./Views/Home/
 RUN dotnet publish -c Release -o /out Widgetario.Web.csproj --no-restore
 
 # app image
