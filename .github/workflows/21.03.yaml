@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - "src/**"
+      - ".github/workflows/21.03.yaml"
   schedule:
     - cron: "0 3 * * 6"
   workflow_dispatch:
@@ -21,6 +22,7 @@ jobs:
       - uses: actions/checkout@master
 
       - name: Build and push 21.03 images
+        working-directory: src
         run: |
           docker-compose -f docker-compose.yml -f docker-compose-build-21.03.yml build 
           docker-compose -f docker-compose.yml -f docker-compose-build-21.03.yml push
