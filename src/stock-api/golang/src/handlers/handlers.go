@@ -60,10 +60,10 @@ func GetProductStock(w http.ResponseWriter, r *http.Request) {
 	if !cacheIsValid {
 		product,_ := getProductStock(int64(id))	
 		log.Printf("Fetched stock from DB for product ID: %v", id)
-
+		cacheExpiry,_ := strconv.Atoi(os.Getenv("CACHE_EXPIRY_SECONDS"))
 		cachedProduct := models.CachedProduct{
 			Product: product,
-			ExpiresAt: time.Now().Unix() + 30,
+			ExpiresAt: time.Now().Unix() + int64(cacheExpiry),
 		}
 		data, _ := json.MarshalIndent(cachedProduct, "", " ")
 		err := ioutil.WriteFile(cacheFile, data, 0644) 
