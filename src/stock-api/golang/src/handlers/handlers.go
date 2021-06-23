@@ -8,6 +8,7 @@ import (
 	"net/http" 
 	"os"
 	"strconv"
+	"time"
 	"github.com/gorilla/mux" 
 	_ "github.com/lib/pq"
 	"stock-api/models"
@@ -40,25 +41,39 @@ func GetHealth(w http.ResponseWriter, r *http.Request) {
 func GetProductStock(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id,_ := strconv.Atoi(params["id"])
-	var product models.Product
+	var cachedProduct models.CachedProduct
+	var cacheIsValid bool
 
 	cacheFile := fmt.Sprintf("/cache/product-%v.json", id);
 	if _, err := os.Stat(cacheFile); err == nil {
 		content,_ := ioutil.ReadFile(cacheFile) 		
-		_ = json.Unmarshal(content, &product)
-		log.Printf("Loaded stock from cache for product ID: %v", id)
-	} else {
+		_ = json.Unmarshal(content, &cachedProduct)
+		cacheIsValid = time.Now().Unix() < cachedProduct.ExpiresAt
+		if cacheIsValid {
+			log.Printf("Loaded stock from cache for product ID: %v", id)
+		} else {
+			log.Printf("Cache expired for product ID: %v", id)
+			os.Remove(cacheFile)
+		}
+	} 
+	
+	if !cacheIsValid {
 		product,_ := getProductStock(int64(id))	
 		log.Printf("Fetched stock from DB for product ID: %v", id)
-		data, _ := json.MarshalIndent(product, "", " ")
-		err = ioutil.WriteFile(cacheFile, data, 0644) 
+
+		cachedProduct := models.CachedProduct{
+			Product: product,
+			ExpiresAt: time.Now().Unix() + 30,
+		}
+		data, _ := json.MarshalIndent(cachedProduct, "", " ")
+		err := ioutil.WriteFile(cacheFile, data, 0644) 
 		if err != nil {
-			log.Printf("ERR 1046 - failed to write to cache file")
+			log.Printf("ERR 1046 - failed to write to cache file: %v", cacheFile)
 		}
 	}	
 
 	w.Header().Add("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(product)
+	json.NewEncoder(w).Encode(cachedProduct.Product)
 }
 
 func SetProductStock(w http.ResponseWriter, r *http.Request) {
