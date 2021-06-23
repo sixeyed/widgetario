@@ -1,0 +1,27 @@
+name: Widgetario release 21.03
+
+on:
+  push:
+    paths:
+      - "src/**"
+  schedule:
+    - cron: "0 3 * * 6"
+  workflow_dispatch:
+
+jobs:
+  build-base:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Registry login
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - uses: actions/checkout@master
+
+      - name: Build and push 21.03 images
+        working-directory: docker
+        run: |
+          docker-compose -f docker-compose.yml -f docker-compose-build-21.03.yml build 
+          docker-compose -f docker-compose.yml -f docker-compose-build-21.03.yml push
