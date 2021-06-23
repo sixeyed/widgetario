@@ -30,7 +30,7 @@ services:
   web:
     image: widgetario/web:dotnet
     environment:
-      - StockApi:Url="http://stock-api/:8080/stock" 
+      - StockApi:Url="http://stock-api:8080/stock" 
     ports:
       - "8080:80"
     networks:

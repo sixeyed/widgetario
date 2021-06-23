@@ -12,7 +12,7 @@ RUN dotnet publish -c Release -o /out Widgetario.Web.csproj --no-restore
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine
 
 ENV Widgetario__ProductsApi__Url="http://products-api/products" \
-    Widgetario__StockApi__Url="http://stock-api/stock" \
+    Widgetario__StockApi__Url="http://stock-api:8080/stock" \
     Widgetario__Theme="light"
 
 ENTRYPOINT ["dotnet", "/app/Widgetario.Web.dll"]

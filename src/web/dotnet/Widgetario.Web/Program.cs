@@ -19,23 +19,20 @@ namespace Widgetario.Web
         public static void Main(string[] args)
         {
             _InfoGauge.Labels("3.1.7", "Widgetario.Web", "1.1.0").Set(1);
-            
-            Log.Logger = new LoggerConfiguration()            
-                                .Enrich.FromLogContext()
-                                .MinimumLevel.Information()
-                                .WriteTo.File("/logs/app.log", shared: true, flushToDiskInterval: TimeSpan.FromSeconds(5))
-                                .CreateLogger();
-
             CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .UseSerilog()
+                .UseSerilog((builderContext, config) =>
+                {
+                    config.ReadFrom.Configuration(builderContext.Configuration);
+                })
                 .ConfigureAppConfiguration((builderContext, config) =>
                 {
                     config.AddJsonFile("appsettings.json")
                           .AddEnvironmentVariables()
+                          .AddJsonFile("config/serilog.json", optional: true, reloadOnChange: true)
                           .AddJsonFile("config/logging.json", optional: true, reloadOnChange: true)
                           .AddJsonFile("secrets/api.json", optional: true, reloadOnChange: true);
                 })

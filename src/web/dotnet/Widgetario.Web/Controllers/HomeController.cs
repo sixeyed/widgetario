@@ -1,16 +1,13 @@
-using System;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using OpenTracing;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Widgetario.Web.Models;
 using Widgetario.Web.Services;
-using OpenTracing.Util;
-using OpenTracing;
 
 namespace Widgetario.Web.Controllers
 {
@@ -41,14 +38,20 @@ namespace Widgetario.Web.Controllers
                 using (var productLoadScope = _tracer.BuildSpan("product-api-load").StartActive())
                 {
                     model.Products = await _productsService.GetProducts();
+                    _logger.LogTrace($"Loaded: {model.Products.Count()} products from API");
                 }                
                 foreach (var product in model.Products)
                 {
                     using (var stockLoadScope = _tracer.BuildSpan("stock-api-load").StartActive())
                     {
                         var productStock = await _stockService.GetStock(product.Id);
-                        product.Stock = productStock.Stock;                        
+                        product.Stock = productStock.Stock;
+                        _logger.LogTrace($"Fetched stock count: {product.Stock} for product ID: {product.Id} from API");
                     }
+                }
+                if (model.Products.Sum(x=>x.Stock) == 0)
+                {
+                    _logger.LogWarning("No stock for any products!");
                 }
                 _logger.LogDebug($"Products & stock load took: {stopwatch.Elapsed.TotalMilliseconds}ms");
             }           
@@ -64,6 +67,7 @@ namespace Widgetario.Web.Controllers
 
             ViewData["Theme"] = _config.GetValue<string>("Widgetario:Theme") ?? "light";
 
+            _logger.LogInformation($"Returning: {model.Products.Count()} products");
             return View(model);
         }
 
