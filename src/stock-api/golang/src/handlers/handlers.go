@@ -51,7 +51,10 @@ func GetProductStock(w http.ResponseWriter, r *http.Request) {
 		product,_ := getProductStock(int64(id))	
 		log.Printf("Fetched stock from DB for product ID: %v", id)
 		data, _ := json.MarshalIndent(product, "", " ")
-		_ = ioutil.WriteFile(cacheFile, data, 0644) 
+		err = ioutil.WriteFile(cacheFile, data, 0644) 
+		if err != nil {
+			log.Printf("ERR 1046 - failed to write to cache file")
+		}
 	}	
 
 	w.Header().Add("Content-Type", "application/json")
