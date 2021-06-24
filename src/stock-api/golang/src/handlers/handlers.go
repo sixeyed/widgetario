@@ -61,7 +61,7 @@ func GetProductStock(w http.ResponseWriter, r *http.Request) {
 		product,_ := getProductStock(int64(id))	
 		log.Printf("Fetched stock from DB for product ID: %v", id)
 		cacheExpiry,_ := strconv.Atoi(os.Getenv("CACHE_EXPIRY_SECONDS"))
-		cachedProduct := models.CachedProduct{
+		cachedProduct = models.CachedProduct{
 			Product: product,
 			ExpiresAt: time.Now().Unix() + int64(cacheExpiry),
 		}
@@ -81,8 +81,13 @@ func SetProductStock(w http.ResponseWriter, r *http.Request) {
 	id,_ := strconv.Atoi(params["id"])
 
 	var product models.Product
-	_ = json.NewDecoder(r.Body).Decode(&product)
+	err := json.NewDecoder(r.Body).Decode(&product)
+	if err != nil {
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+    }
 
+	log.Printf("Setting stock to : %v, for product ID: %v", product.Stock, id)
 	setProductStock(int64(id), product.Stock)
 	log.Printf("Updated stock for product ID: %v", id)
 
