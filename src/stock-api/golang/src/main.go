@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 	"stock-api/router"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"	
@@ -12,11 +13,11 @@ var (
 	appInfo = promauto.NewGaugeVec(prometheus.GaugeOpts{
 	  Name: "app_info",
 	  Help: "Application info",
-	}, []string{"version", "goversion"})
+	}, []string{"version", "goversion", "osversion"})
 )
 
 func main() {
-	appInfo.WithLabelValues("0.3.0", "1.14.4").Set(1)
+	appInfo.WithLabelValues(os.Getenv("APP_VERSION"), os.Getenv("GOLANG_VERSION"), os.Getenv("ALPINE_VERSION")).Set(1)
 	
 	r := router.Router()
 	log.Println("Starting server on port 8080...")

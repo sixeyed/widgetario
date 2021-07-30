@@ -20,6 +20,6 @@ public class ApplicationStartup implements ApplicationRunner {
 
 	@Override
     public void run(ApplicationArguments args) throws Exception {
-        registry.gauge("app.info", Tags.of("version", "0.3.0", "java.version", "11-jre"), appInfoGaugeValue);
+        registry.gauge("app.info", Tags.of("version", System.getenv("APP_VERSION"), "java.version", System.getenv("JRE_VERSION")), appInfoGaugeValue);
     }
 }

@@ -10,15 +10,33 @@ services:
     build:
       context: db/postgres-replicated
 
+  products-db-replicated-v2:
+    image: widgetario/products-db-replicated:21.03-v2
+    build:
+      context: db/postgres-replicated
+      dockerfile: Dockerfile.v2
+
   products-api:
     image: widgetario/products-api:21.03
     build:
       context: products-api/java
 
+  products-api-v2:
+    image: widgetario/products-api:21.03-v2
+    build:
+      context: products-api/java
+      dockerfile: Dockerfile.v2
+
   stock-api:
     image: widgetario/stock-api:21.03
     build:
       context: stock-api/golang
+  
+  stock-api-v2:
+    image: widgetario/stock-api:21.03-v2
+    build:
+      context: stock-api/golang
+      dockerfile: Dockerfile.v2
   
   web:
     image: widgetario/web:21.03
