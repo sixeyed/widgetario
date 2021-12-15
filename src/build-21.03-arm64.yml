@@ -1,0 +1,28 @@
+services:
+
+  products-db:
+    image: widgetario/products-db:21.03-linux-arm64
+
+  products-db-replicated:
+    image: widgetario/products-db-replicated:21.03-linux-arm64
+
+  products-db-replicated-v2:
+    image: widgetario/products-db-replicated:21.03-v2-linux-arm64
+
+  products-api:
+    image: widgetario/products-api:21.03-linux-arm64
+
+  products-api-v2:
+    image: widgetario/products-api:21.03-v2-linux-arm64
+
+  stock-api:
+    image: widgetario/stock-api:21.03-linux-arm64
+  
+  stock-api-v2:
+    image: widgetario/stock-api:21.03-v2-linux-arm64
+  
+  web:
+    image: widgetario/web:21.03-linux-arm64
+  
+  web-v2:
+    image: widgetario/web:21.03-v2-linux-arm64
