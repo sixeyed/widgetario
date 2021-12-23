@@ -1,0 +1,12 @@
+version: "3.7"
+
+services:  
+  gogs:
+    image: widgetario/gogs:0.12.3
+    build:
+      context: ./gogs
+
+  jenkins:
+    image: widgetario/jenkins:2.319.1
+    build:
+      context: ./jenkins
