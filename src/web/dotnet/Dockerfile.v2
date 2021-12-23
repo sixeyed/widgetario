@@ -17,5 +17,11 @@ ENV Widgetario__ProductsApi__Url="http://products-api/products" \
 
 ENTRYPOINT ["dotnet", "/app/Widgetario.Web.dll"]
 
+# create user & writeable paths
+RUN addgroup -S -g 1000 app && \
+    adduser -u 1000 -G app -s /bin/false -H -S app && \
+    mkdir -p /logs && \
+    chown app:app /logs
+    
 WORKDIR /app
 COPY --from=builder /out/ .
