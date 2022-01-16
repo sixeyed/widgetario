@@ -6,3 +6,9 @@ services:
 
   jenkins:
     image: widgetario/jenkins:2.319.1-linux-amd64
+  
+  elasticsearch:
+    image: widgetario/elasticsearch:7.10-linux-amd64
+
+  kibana:
+    image: widgetario/kibana:7.10-linux-amd64
