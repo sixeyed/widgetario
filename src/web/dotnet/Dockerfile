@@ -5,7 +5,7 @@ COPY Widgetario.Web/Widgetario.Web.csproj .
 RUN dotnet restore
 
 COPY Widgetario.Web/ .
-RUN dotnet publish -c Release -o /out Widgetario.Web.csproj --no-restore
+RUN dotnet publish -c Release -o /out Widgetario.Web.csproj
 
 # app image
 FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine

@@ -35,6 +35,8 @@ services:
     image: widgetario/web:dotnet-serilog-26.06
     build:
       context: web/dotnet
+    environment:
+      - Widgetario__StockApi__Url=http://stock-api/stock
     ports:
       - "8080:80"
     networks:
