@@ -1,48 +1,33 @@
-﻿@model ProductViewModel
+@model ProductViewModel
 @{
     ViewData["Title"] = "Products";
 }
 
-@if (ViewData["Theme"] != null)
-{
-    var css = "/css/themes/" + ViewData["Theme"] + ".css";
-    <link rel="stylesheet" href="@css" />
-}
-
-@if (ViewData["Environment"] != null)
-{
-    <div class="clearfix" style="background-color: aquamarine">
-        <div class="float-right">
-            <h1>@ViewData["Environment"]</h1>
-        </div>
+<section class="hero">
+    <div class="hero__copy">
+        <span class="hero__eyebrow">Widgetario</span>
+        <h1 class="hero__title">Tools for builders.</h1>
+        <p class="hero__tag">Stocked, shipped, sorted.</p>
     </div>
-}
+    @if (ViewData["Environment"] != null)
+    {
+        <span class="env-chip">@ViewData["Environment"]</span>
+    }
+</section>
 
-<img src="~/img/logo2-small.png" class="mx-auto my-5 d-block" />
-
-@if (@Model.Products == null)
+@if (Model.Products == null)
 {
-    <p><em>Loading...</em></p>
+    <p class="loading">Loading…</p>
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Your widget</th>
-                <th>Just</th>
-                <th>Availability</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var product in @Model.Products)
-            {
-                <tr>
-                    <td>@product.Name</td>
-                    <td>@product.DisplayPrice</td>
-                    <td>@product.StockMessage</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <ul class="product-list">
+        @foreach (var product in Model.Products)
+        {
+            <li class="product-row">
+                <span class="product-row__name">@product.Name</span>
+                <span class="product-row__price">@product.DisplayPrice</span>
+            </li>
+        }
+    </ul>
 }
