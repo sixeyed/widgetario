@@ -9,7 +9,7 @@
         <h1 class="hero__title">Tools for builders.</h1>
         <p class="hero__tag">Stocked, shipped, sorted.</p>
     </div>
-    @if (ViewData["Environment"] != null)
+    @if (!string.IsNullOrEmpty(ViewData["Environment"] as string))
     {
         <span class="env-chip">@ViewData["Environment"]</span>
     }
