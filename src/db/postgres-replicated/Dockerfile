@@ -1,4 +1,4 @@
-FROM postgres:11.6-alpine
+FROM postgres:18-alpine
 
 COPY ./initdb/*.sh /initdb/
 COPY ./conf/*.conf /conf/

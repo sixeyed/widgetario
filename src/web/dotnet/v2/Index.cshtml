@@ -1,57 +1,52 @@
-﻿@model ProductViewModel
+@model ProductViewModel
 @{
     ViewData["Title"] = "Products";
 }
 
-@if (ViewData["Theme"] != null)
-{
-    var css = "/css/themes/" + ViewData["Theme"] + ".css";
-    <link rel="stylesheet" href="@css" />
-}
-
-@if (ViewData["Environment"] != null)
-{
-    <div class="clearfix" style="background-color: aquamarine">
-        <div class="float-right">
-            <h1>@ViewData["Environment"]</h1>
-        </div>
+<section class="hero">
+    <div class="hero__copy">
+        <span class="hero__eyebrow">Widgetario</span>
+        <h1 class="hero__title">Tools for builders.</h1>
+        <p class="hero__tag">Stocked, shipped, sorted.</p>
     </div>
-}
+    @if (!string.IsNullOrEmpty(ViewData["Environment"] as string))
+    {
+        <span class="env-chip">@ViewData["Environment"]</span>
+    }
+</section>
 
-<img src="~/img/logo2-small.png" class="mx-auto my-5 d-block" />
-
-@if (@Model.Products == null)
+@if (Model.Products == null)
 {
-    <p><em>Loading...</em></p>
+    <p class="loading">Loading…</p>
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Your widget</th>
-                <th>Just</th>
-                <th>Availability</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var product in @Model.Products)
-            {
-                <tr>
-                    <td>@product.Name</td>
-                    <td>@product.DisplayPrice</td>
-                    <td>@product.StockMessage</td>
-                    @if (product.Stock > 0)
-                    {
-                        <td><button type="button" class="btn btn-primary">Buy</button></td>
-                    }
-                    else
-                    {
-                        <td></td>
-                    }
-                </tr>
-            }
-        </tbody>
-    </table>
+    <ul class="product-list">
+        @foreach (var product in Model.Products)
+        {
+            <li class="product-row @(product.Stock == 0 ? "product-row--sold" : "")">
+                <span class="product-tile" aria-hidden="true" style="background: @product.TileColor">@product.Emoji</span>
+                <div class="product-row__info">
+                    <span class="product-row__name">@product.Name</span>
+                    <span class="product-row__price">@product.DisplayPrice</span>
+                </div>
+                @{
+                    string badgeText;
+                    string badgeMod;
+                    if (product.Stock == 0) { badgeText = "Sold out"; badgeMod = "product-badge--negative"; }
+                    else if (product.Stock < 50) { badgeText = "Few left"; badgeMod = "product-badge--warning"; }
+                    else { badgeText = "In stock"; badgeMod = "product-badge--positive"; }
+                }
+                <span class="product-badge @badgeMod">@badgeText</span>
+                @if (product.Stock > 0)
+                {
+                    <button type="button" class="button" onclick="widgetario.toast('Added! 🎉')">Buy</button>
+                }
+                else
+                {
+                    <button type="button" class="button" disabled>Buy</button>
+                }
+            </li>
+        }
+    </ul>
 }

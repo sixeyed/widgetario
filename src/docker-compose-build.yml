@@ -1,32 +1,32 @@
 services:
 
   products-db:
-    image: widgetario/products-db:postgres
+    image: widgetario/products-db:26.06
     build:
       context: db/postgres
 
   products-db-replicated:
-    image: widgetario/products-db:postgres-replicated
+    image: widgetario/products-db:postgres-replicated-26.06
     build:
       context: db/postgres-replicated
 
   products-api:
-    image: widgetario/products-api:java
+    image: widgetario/products-api:26.06
     build:
       context: products-api/java
 
   stock-api:
-    image: widgetario/stock-api:golang
+    image: widgetario/stock-api:26.06
     build:
       context: stock-api/golang
-  
+
   web:
-    image: widgetario/web:dotnet
+    image: widgetario/web:26.06
     build:
       context: web/dotnet
-  
+
   web-v2:
-    image: widgetario/web:dotnet-v2
+    image: widgetario/web:26.06-v2
     build:
       context: web/dotnet
       dockerfile: Dockerfile.v2

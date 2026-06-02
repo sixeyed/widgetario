@@ -1,0 +1,96 @@
+:root {
+  /* Color — light */
+  --color-bg: #ffeb6b;
+  --color-surface: #ffffff;
+  --color-surface-alt: #fff9d4;
+  --color-ink: #1a1a1a;
+  --color-ink-muted: #5a5a5a;
+  --color-accent: #ff5fa2;
+  --color-accent-ink: #1a1a1a;
+  --color-positive: #1a1a1a;
+  --color-positive-ink: #ffeb6b;
+  --color-warning: #fb923c;
+  --color-warning-ink: #1a1a1a;
+
+  /* Tile palette (constant in both modes) */
+  --tile-1: #ff5fa2;
+  --tile-2: #7cdfff;
+  --tile-3: #a3e635;
+  --tile-4: #fb923c;
+  --tile-5: #b794f4;
+  --tile-6: #34d399;
+
+  /* Typography */
+  --font-display: 'Archivo Black', system-ui, sans-serif;
+  --font-body: 'Inter Tight', system-ui, sans-serif;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.75rem;
+  --text-2xl: 2.5rem;
+  --leading-tight: 1.1;
+  --leading-normal: 1.5;
+  --tracking-tight: -0.02em;
+  --tracking-wide: 0.08em;
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 999px;
+
+  /* Shadow (the stamp) */
+  --shadow-stamp-sm: 3px 3px 0 var(--color-ink);
+  --shadow-stamp-md: 5px 5px 0 var(--color-ink);
+  --shadow-stamp-lg: 8px 8px 0 var(--color-ink);
+  --shadow-press: 1px 1px 0 var(--color-ink);
+
+  /* Border */
+  --border-thin: 2px solid var(--color-ink);
+  --border-thick: 3px solid var(--color-ink);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 120ms;
+  --dur-base: 220ms;
+  --dur-slow: 400ms;
+}
+
+[data-theme="dark"] {
+  --color-bg: #1a1a1a;
+  --color-surface: #262626;
+  --color-surface-alt: #2d2d2d;
+  --color-ink: #ffeb6b;
+  --color-ink-muted: #b8b8b8;
+  --color-accent: #ff5fa2;
+  --color-accent-ink: #1a1a1a;
+  --color-positive: #ffeb6b;
+  --color-positive-ink: #1a1a1a;
+  --color-warning: #fb923c;
+  --color-warning-ink: #1a1a1a;
+}
+
+/* Reset / base */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  min-height: 100vh;
+}
+button { font-family: inherit; cursor: pointer; }
+img { max-width: 100%; display: block; }
