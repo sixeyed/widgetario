@@ -19,9 +19,11 @@
         <link rel="stylesheet" href="~/css/site.css" />
     </head>
     <body>
+        @await Html.PartialAsync("_Header")
         <main role="main">
             @RenderBody()
         </main>
+        @await Html.PartialAsync("_Footer")
         @RenderSection("Scripts", required: false)
     </body>
 </html>

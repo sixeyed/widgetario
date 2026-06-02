@@ -1,1 +1,86 @@
 /* Widgetario component styles. Populated by subsequent tasks. */
+
+/* ---------- App header ---------- */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-surface-alt);
+  border-bottom: var(--border-thick);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.app-header__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  text-decoration: none;
+  color: var(--color-ink);
+}
+.app-header__logo {
+  width: 40px;
+  height: 40px;
+  background: var(--color-accent);
+  border: var(--border-thin);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  transform: rotate(-6deg);
+  box-shadow: var(--shadow-stamp-sm);
+}
+.app-header__wordmark {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  letter-spacing: var(--tracking-tight);
+  line-height: 1;
+}
+
+/* ---------- Theme toggle ---------- */
+.theme-toggle {
+  width: 44px;
+  height: 44px;
+  background: var(--color-bg);
+  border: var(--border-thin);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-stamp-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-ink);
+  transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+}
+.theme-toggle:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: var(--shadow-stamp-md);
+}
+.theme-toggle:active {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-press);
+}
+.theme-toggle:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 2px;
+}
+.theme-toggle__icon { font-size: 18px; line-height: 1; }
+
+/* ---------- App footer ---------- */
+.app-footer {
+  margin-top: var(--space-7);
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-ink);
+  color: var(--color-bg);
+  text-align: center;
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  border-top: var(--border-thick);
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 480px) {
+  .app-header__wordmark { display: none; }
+}
