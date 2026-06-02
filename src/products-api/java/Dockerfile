@@ -1,4 +1,4 @@
-FROM maven:3.6.3-jdk-11 AS builder
+FROM maven:3.9-eclipse-temurin-25 AS builder
 
 WORKDIR /usr/src/api
 COPY pom.xml .
@@ -8,7 +8,7 @@ COPY . .
 RUN mvn package
 
 # app
-FROM openjdk:11.0.11-jre-slim-buster
+FROM eclipse-temurin:25-jre
 
 WORKDIR /app
 COPY --from=builder /usr/src/api/target/products-api-0.1.0.jar .
@@ -16,5 +16,5 @@ COPY --from=builder /usr/src/api/target/products-api-0.1.0.jar .
 EXPOSE 80
 ENTRYPOINT ["java", "-jar", "/app/products-api-0.1.0.jar"]
 
-ENV JRE_VERSION="11.0.11" \
-    APP_VERSION="0.3.0"
+ENV JRE_VERSION="25" \
+    APP_VERSION="26.06"
