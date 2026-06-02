@@ -269,3 +269,32 @@
   background: transparent;
   color: var(--color-ink);
 }
+
+/* ---------- Toast ---------- */
+.toast {
+  position: fixed;
+  bottom: var(--space-5);
+  right: var(--space-5);
+  max-width: 320px;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  border: var(--border-thin);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-stamp-md);
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: var(--text-sm);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
+  z-index: 50;
+}
+.toast--enter {
+  opacity: 1;
+  transform: translateY(0);
+}
+.toast--exit {
+  opacity: 0;
+  transform: translateY(8px);
+}
