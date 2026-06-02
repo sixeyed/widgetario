@@ -13,8 +13,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine
 
 ENV ASPNETCORE_HTTP_PORTS=80 \
     Widgetario__ProductsApi__Url="http://products-api/products" \
-    Widgetario__StockApi__Url="http://stock-api:8080/stock" \
-    Widgetario__Theme="light"
+    Widgetario__StockApi__Url="http://stock-api:8080/stock"
 
 ENTRYPOINT ["dotnet", "/app/Widgetario.Web.dll"]
 
