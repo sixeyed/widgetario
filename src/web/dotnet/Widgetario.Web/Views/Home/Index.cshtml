@@ -24,9 +24,12 @@ else
     <ul class="product-list">
         @foreach (var product in Model.Products)
         {
-            <li class="product-row">
-                <span class="product-row__name">@product.Name</span>
-                <span class="product-row__price">@product.DisplayPrice</span>
+            <li class="product-row @(product.Stock == 0 ? "product-row--sold" : "")">
+                <span class="product-tile" aria-hidden="true" style="background: @product.TileColor">@product.Emoji</span>
+                <div class="product-row__info">
+                    <span class="product-row__name">@product.Name</span>
+                    <span class="product-row__price">@product.DisplayPrice</span>
+                </div>
             </li>
         }
     </ul>
