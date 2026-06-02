@@ -30,6 +30,14 @@ else
                     <span class="product-row__name">@product.Name</span>
                     <span class="product-row__price">@product.DisplayPrice</span>
                 </div>
+                @{
+                    string badgeText;
+                    string badgeMod;
+                    if (product.Stock == 0) { badgeText = "Sold out"; badgeMod = "product-badge--negative"; }
+                    else if (product.Stock < 50) { badgeText = "Few left"; badgeMod = "product-badge--warning"; }
+                    else { badgeText = "In stock"; badgeMod = "product-badge--positive"; }
+                }
+                <span class="product-badge @badgeMod">@badgeText</span>
             </li>
         }
     </ul>
