@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="@(ViewData["Theme"] ?? "light")">
+@{ var serverTheme = ViewData["Theme"] as string; }
+<html lang="en"@(string.IsNullOrEmpty(serverTheme) ? "" : $" data-theme=\"{serverTheme}\"")>
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />

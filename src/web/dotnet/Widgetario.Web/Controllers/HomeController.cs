@@ -65,7 +65,7 @@ namespace Widgetario.Web.Controllers
                 ViewData["Environment"] = $"{_config["Widgetario:Environment"]}";
             }
 
-            ViewData["Theme"] = _config.GetValue<string>("Widgetario:Theme") ?? "light";
+            ViewData["Theme"] = _config.GetValue<string>("Widgetario:Theme");
 
             _logger.LogInformation($"Returning: {model.Products.Count()} products");
             return View(model);
